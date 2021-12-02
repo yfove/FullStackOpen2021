@@ -42,3 +42,9 @@ const handleLeftClick = () => {
   const handleRightClick = () => { 
     setClicks({...clicks, right: clicks.right + 1})
   }
+
+const handleLeftClick = () => {
+  clicks.left++
+  setClicks(clicks)
+}
+
