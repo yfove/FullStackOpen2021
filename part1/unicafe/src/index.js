@@ -1,9 +1,29 @@
 import ReactDOM from 'react-dom'
 import React, {useState} from 'react'
 
+const Header = props => <h1>{props.name}</h1>
 
-const Header = ({text}) => {
-  <h2>{text}</h2>
+const Statistic = ({feedback, value}) => {
+  return (
+    <td>{feedback} {value}</td>
+  )
+}
+
+const Statistics = ({good, neutral, bad }) => {
+  if (good === 0 & neutral === 0 & bad === 0) {
+    return (
+      <p>No feedback given</p>
+    )
+  }
+  return (
+    <table>
+      <tbody>
+        <tr><Statistic feedback="good" value={good}/></tr>
+        <tr><Statistic feedback="neutral" value={neutral}/></tr>
+        <tr><Statistic feedback="bad" value={bad}/></tr>
+      </tbody>
+    </table>
+  )
 }
 
 const Button = ({handleClick, text }) => (
@@ -25,10 +45,13 @@ const App = () => {
 
   return (
     <div>
-      code here
+      <Header name="Customer feedback"/>
       <Button handleClick={increaseGood} text={"Good"} />
       <Button handleClick={increaseNeutral} text={"Neutral"} />
       <Button handleClick={increaseBad} text={"Bad"} />
+      <Header name="Statistics" />
+      <Statistics good={good} neutral={neutral} bad={bad} />
+    
     </div>
 
    
