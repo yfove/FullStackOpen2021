@@ -9,7 +9,7 @@ const Statistic = ({feedback, value}) => {
   )
 }
 
-const Statistics = ({good, neutral, bad }) => {
+const Statistics = ({good, neutral, bad, all, average, positive }) => {
   if (good === 0 & neutral === 0 & bad === 0) {
     return (
       <p>No feedback given</p>
@@ -21,6 +21,9 @@ const Statistics = ({good, neutral, bad }) => {
         <tr><Statistic feedback="good" value={good}/></tr>
         <tr><Statistic feedback="neutral" value={neutral}/></tr>
         <tr><Statistic feedback="bad" value={bad}/></tr>
+        <tr><Statistic feedback="all" value={all}/></tr>
+        <tr><Statistic feedback="average" value={average}/></tr>
+        <tr><Statistic feedback="positive" value={positive + '%'}/></tr>
       </tbody>
     </table>
   )
@@ -43,6 +46,10 @@ const App = () => {
   const increaseNeutral = () =>  setNeutral(neutral + 1)
   const increaseBad = () =>  setBad(bad + 1)
 
+  const all = good + neutral + bad
+  const average = (((good-bad) / all) * 100).toFixed(2)
+  const positive = ((good / all) * 100).toFixed(2)
+
   return (
     <div>
       <Header name="Customer feedback"/>
@@ -50,7 +57,7 @@ const App = () => {
       <Button handleClick={increaseNeutral} text={"Neutral"} />
       <Button handleClick={increaseBad} text={"Bad"} />
       <Header name="Statistics" />
-      <Statistics good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive}/>
     
     </div>
 
