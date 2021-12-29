@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import Filter from "./components/Filter";
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -25,7 +28,7 @@ const App = () => {
     e.preventDefault();
     setNewName("");
     setNewNumber("");
-  
+
     const alreadyExists = persons.some((person) => person.name === newName);
     // some() tests if at least on element passes the test. if true finds element & true
     if (alreadyExists) {
@@ -37,10 +40,18 @@ const App = () => {
     setPersonsFilter(newPersons);
   };
 
+  const formData = {
+    onFormSubmit,
+    newName,
+    setNewName,
+    newNumber,
+    setNewNumber,
+  }
+
   return (
     <div>
     <h2>Phonebook</h2>
-    <p>
+    {/* <p>
       filter shown  with
       <input value={searchPerson} onChange={filterPersons}/>
     </p>
@@ -58,7 +69,7 @@ const App = () => {
       <div>
         number: {" "}
         <input
-           value={newNumber} 
+           value={newNumber}
            onChange={(e) => setNewNumber(e.target.value)}
         />
       </div>
@@ -71,7 +82,12 @@ const App = () => {
         <><p key={person.name}>
         {person.name} <span>{person.number}</span>
       </p></>
-      ))}
+      ))} */}
+      <Filter value={searchPerson} onChange={filterPersons} />
+      <h3>Add a new</h3>
+      <PersonForm data={formData} />
+      <h3>Numbers</h3>
+      <Persons personsFilter={personsFilter} />
   </div>
   );  
 };
