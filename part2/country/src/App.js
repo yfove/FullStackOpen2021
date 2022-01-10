@@ -12,9 +12,13 @@ const App = () => {
     })
   }, [])
 
+  const filteredCountries = countries.filter(country => country.name.toLowerCase().includes(searchFilter.toLowerCase()))
+
   return (
     <div>
-      {countries.map(country => <div key={country.name}>{country.name}</div>)}
+    search countries <input value={searchFilter} onChange={e => setSearchFilter(e.target.value)} />
+      {/* {countries.map(country => <div key={country.name}>{country.name}</div>)} */}
+      {filteredCountries.map(country => <div key={country.name}>{country.name}</div>)}
     </div>
   )
 }
