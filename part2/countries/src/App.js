@@ -15,7 +15,7 @@ const App = () => {
   const [ countriesFilter, setCountriesFilter] = useState([]);
 
   useEffect(() => {
-    axios.get ('https://restcountries.com/v3.1/all').then((response) => {
+    axios.get ('https://restcountries.com/v2/all').then((response) => {
       setCountries(response.data);
       // console.log(response.data);
     })
