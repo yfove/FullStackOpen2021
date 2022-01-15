@@ -1,18 +1,11 @@
 import React from 'react';
 
-const Country = ({ data: { name, capital, population, flag, languages} }) => {
+const Country = ({ country, handleFilterChange }) => {
     return (
-        <>
-            <h1>{name}</h1>
-            <p>Capital: {capital}</p>
-            <p>Populatiion: {population}</p>
-            <ul>
-                {languages.map((language) => (
-                    <li>{language.name}</li>
-                ))}
-            </ul>
-            <img src={flag} alt={name} width="20%" />
-        </>
+        <li>
+            { country.name }
+            <button value={country.name} onClick={handleFilterChange}>show</button>
+        </li>
     )
 }
 

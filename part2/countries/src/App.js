@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import Country from './components/Country'
+
+import Countries from './components/Countries';
+import Filter from './components/Filter'
 
 
-//todo
-// 1. limit for 10 countries
-// 2. less than 1 but more than 1 show query
-// 3. show basic data when there is only 1 match
 const App = () => {
 
   //states
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState('');
-  const [ countriesFilter, setCountriesFilter] = useState([]);
+  const [newFilter, setNewFilter] = useState('');
+
+  const countriesToShow = newFilter.length === 0 ? countries 
+  : countries.filter(country => country.name.toLowerCase().indexOf(newFilter) >= 0)
 
   useEffect(() => {
     axios.get ('https://restcountries.com/v2/all').then((response) => {
@@ -24,42 +24,22 @@ const App = () => {
       console.log(error);
     });
   }, []);
+    // adding empty brackets as an arugment to prevent infinite loop
 
+  const handleFilterChange = (e) => setNewFilter(e.target.value.toLowerCase())
 
-  const searchCountry = (e) => {
-    setCountry(e.target.value);
-    setCountriesFilter(
-      countries.filter(
-        (country) =>
-          country.name.toLowerCase().search(e.target.value.toLowerCase()) !== -1
-      )
-    );
-  };
-
-  const showCountries = () => {
-    if (countriesFilter.length === 0) return;
-    if (countriesFilter.length === 1) {
-      return <Country data={countriesFilter[0]} />;
-    }
-    return countriesFilter.map((country) => <p>{country.name}</p>);
-  };
-
-  // adding empty brackets as an arugment to prevent infinite loop
-  // argument tells useEffect to only render if values have changed
-  // only run on render because we are passing it an empty value
   return (
-    <>
-      <p>
-        find countries {''}
-        <input value={country} name="country" onChange={searchCountry}/>
-      </p>
-      {countriesFilter.length > 10 ? (
-        <p>Too many matches, specify another filter</p>
-      ) : (
-        showCountries()
-      )}
-       {/* <code>{JSON.stringify(countries)}</code> */}
-    </>
+    <div>
+      <Filter 
+        handleFilterChange={(e) => {handleFilterChange(e) }}
+      />
+
+      <Countries 
+        filter={ newFilter }
+        countries={ countriesToShow }
+        handleFilterChange={ (e) => { handleFilterChange(e)}}
+      />
+    </div>
   )
 }
 
